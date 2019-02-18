@@ -14,22 +14,36 @@ public:
 
         vector_len = aligned_w * h;
         firevalue = new uchar[vector_len];
+        wind_speed = 1;
+        vertical_randomness = 3;
 
-        memset(firevalue, 0, vector_len*sizeof(uchar));
+        resetFire();
 
     }
     ~Priv() {
         delete[] firevalue;
     }
 
+    void resetFire() {
+        size_t len = static_cast<size_t>(vector_len)*sizeof(uchar);
+        memset(firevalue, 0, len);
+    }
+
     int getIdx(int i, int j) {
         return i + aligned_w * j;
+    }
+
+    void setIdx(int i, int j, uchar value) {
+        if (i >= 0 && i < w && j >= 0 && j < h)
+            firevalue[getIdx(i, j)] = value;
     }
 
     int w;
     int h;
     int aligned_w;
     int vector_len;
+    int wind_speed;
+    int vertical_randomness;
 
     uchar* firevalue;
 };
@@ -59,6 +73,11 @@ int DoomFire::height()
     return d->h;
 }
 
+int DoomFire::windSpeed()
+{
+    return d->wind_speed;
+}
+
 void DoomFire::createFire()
 {
     for (int i=0; i<d->w; i++) {
@@ -77,24 +96,45 @@ void DoomFire::propagateFire()
 {
     for (int j=0; j<(d->h-1); j++) {
         for (int i=0; i<d->w; i++) {
-            int decay = rand() % 2;
-            int new_value = d->firevalue[d->getIdx(i, j+1)] - decay;
+            int decay = rand() % 3;
+            int new_value = d->firevalue[d->getIdx(i, j+1)] - (decay > 1 ? 1 : 0);
             if (new_value < 0)
                 new_value = 0;
             int new_i = i;
             int new_j = j;
-            if (new_i < (d->w-1) && rand()%2)
-                new_i++;
-            if (new_j > 0 && rand()%2)
+
+            // lateral effect
+            if (d->wind_speed > 0 && rand()%2) {
+                    new_i += d->wind_speed;
+            }
+            else if (d->wind_speed < 0 && rand()%2) {
+                    new_i += d->wind_speed;
+            }
+
+            // vertical space effect
+            if (new_j > 0 && (rand()%d->vertical_randomness)==0)
                 new_j--;
-            d->firevalue[d->getIdx(new_i, new_j)] = (uchar)new_value;
+
+            d->setIdx(new_i, new_j, static_cast<uchar>(new_value));
         }
     }
 }
 
 void DoomFire::resetFire()
 {
-    memset(d->firevalue, 0, d->vector_len*sizeof(uchar));
+    d->resetFire();
+}
+
+void DoomFire::decreaseWindSpeed()
+{
+    if (d->wind_speed > -3)
+        d->wind_speed--;
+}
+
+void DoomFire::increaseWindSpeed()
+{
+    if (d->wind_speed < 3)
+        d->wind_speed++;
 }
 
 void DoomFire::printFire()

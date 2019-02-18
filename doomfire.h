@@ -13,9 +13,14 @@ public:
     int witdh();
     int height();
 
+    int windSpeed();
+
     void createFire();
     void destroyFire();
     void propagateFire();
+
+    void decreaseWindSpeed();
+    void increaseWindSpeed();
 
     void resetFire();
     void printFire();

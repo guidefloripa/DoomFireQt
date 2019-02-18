@@ -13,6 +13,9 @@ public:
     Priv(int w, int h) {
         df = new DoomFire(w, h);
         df->createFire();
+        updateInterval = 30;
+        fireOn = true;
+        fireCreated = true;
 
         colorTable.push_back(QColor(7, 7, 7).rgb());
         colorTable.push_back(QColor(31, 7, 7).rgb());
@@ -57,9 +60,12 @@ public:
         delete df;
     }
 
-    DoomFire *df;
-    bool fireOn;
     QVector<QRgb> colorTable;
+
+    DoomFire *df;
+    int updateInterval;
+    bool fireOn;
+    bool fireCreated;
 };
 
 
@@ -69,12 +75,32 @@ FireWidget::FireWidget(int w, int h, QWidget *parent) : QWidget(parent)
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimerUpdate()));
-    timer->start(70);
+    timer->start(d->updateInterval);
 }
 
 FireWidget::~FireWidget()
 {
     delete d;
+}
+
+QString FireWidget::playPauseString()
+{
+    return d->fireOn ? QString("Pause") : QString("Play");
+}
+
+QString FireWidget::CreateDestroyString()
+{
+    return d->fireCreated ? QString("Destroy") : QString("Create");
+}
+
+QString FireWidget::windSpeed()
+{
+    return QString("%1").arg(d->df->windSpeed());
+}
+
+QString FireWidget::updateInterval()
+{
+    return QString("%1").arg(d->updateInterval);
 }
 
 void FireWidget::paintEvent(QPaintEvent *event)
@@ -94,17 +120,59 @@ void FireWidget::onTimerUpdate()
     update();
 }
 
-void FireWidget::mouseReleaseEvent(QMouseEvent *event)
+void FireWidget::onPlayPausePressed()
 {
     if (d->fireOn) {
         timer->stop();
-        //d->df->destroyFire();
         d->fireOn = false;
     }
     else {
-        timer->start(30);
-        //d->df->createFire();
+        timer->start(d->updateInterval);
         d->fireOn = true;
     }
+    emit statusUpdated();
     update();
+}
+
+void FireWidget::onCreateDestroyPressed()
+{
+    if (d->fireCreated) {
+        d->df->destroyFire();
+        d->fireCreated = false;
+    }
+    else {
+        d->df->createFire();
+        d->fireCreated = true;
+    }
+    emit statusUpdated();
+}
+
+void FireWidget::onIncreaseWindPressed()
+{
+    d->df->increaseWindSpeed();
+    emit statusUpdated();
+}
+
+void FireWidget::onDecreaseWindPressed()
+{
+    d->df->decreaseWindSpeed();
+    emit statusUpdated();
+}
+
+void FireWidget::onIncreaseIntervalPressed()
+{
+    if (d->updateInterval < 100) {
+        d->updateInterval += 5;
+        timer->setInterval(d->updateInterval);
+    }
+    emit statusUpdated();
+}
+
+void FireWidget::onDecreaseIntervalPressed()
+{
+    if (d->updateInterval > 10) {
+        d->updateInterval -= 5;
+        timer->setInterval(d->updateInterval);
+    }
+    emit statusUpdated();
 }
