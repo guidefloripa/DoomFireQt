@@ -2,7 +2,6 @@
 
 #include "doomfire.h"
 
-#include <QDebug>
 #include <QColor>
 #include <QPainter>
 
