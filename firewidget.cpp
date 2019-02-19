@@ -73,7 +73,7 @@ FireWidget::FireWidget(int w, int h, QWidget *parent) : QWidget(parent)
     d = new Priv(w, h);
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(onTimerUpdate()));
+    connect(timer, &QTimer::timeout, this, &FireWidget::onTimerUpdate);
     timer->start(d->updateInterval);
 }
 
