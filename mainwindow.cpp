@@ -16,15 +16,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     DecreaseWindButton = new QPushButton(this);
     DecreaseWindButton->setText("-");
+    DecreaseWindButton->setMaximumWidth(35);
 
     IncreaseWindButton = new QPushButton(this);
     IncreaseWindButton->setText("+");
+    IncreaseWindButton->setMaximumWidth(35);
 
     DecreaseInvervalButton = new QPushButton(this);
     DecreaseInvervalButton->setText("-");
+    DecreaseInvervalButton->setMaximumWidth(35);
 
     IncreaseInvervalButton = new QPushButton(this);
     IncreaseInvervalButton->setText("+");
+    IncreaseInvervalButton->setMaximumWidth(35);
 
     WindSpeedLabel = new QLabel(this);
     //WindSpeedLabel->setStyleSheet("QLabel { color : white; }");
