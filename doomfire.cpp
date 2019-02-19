@@ -1,5 +1,8 @@
 #include "doomfire.h"
 
+#include <string.h>
+#include <stdio.h>
+
 #define FIRE_ALIGN 4
 
 class DoomFire::Priv{
