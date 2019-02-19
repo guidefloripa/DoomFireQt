@@ -1,0 +1,5 @@
+Makefile
+*.o
+moc*.*
+ui*.h
+fire.app
