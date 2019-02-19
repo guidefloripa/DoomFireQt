@@ -103,17 +103,17 @@ void DoomFire::propagateFire()
             int new_i = i;
             int new_j = j;
 
-            // lateral effect
+            // lateral effect (wind)
             if (d->wind_speed > 0 && rand()%2) {
-                    new_i += d->wind_speed;
+                new_i += d->wind_speed;
             }
             else if (d->wind_speed < 0 && rand()%2) {
-                    new_i += d->wind_speed;
+                new_i += d->wind_speed;
             }
 
             // vertical space effect
-            if (new_j > 0 && (rand()%d->vertical_randomness)==0)
-                new_j--;
+            //if (new_j > 0 && (rand()%d->vertical_randomness)==0)
+            //    new_j--;
 
             d->setIdx(new_i, new_j, static_cast<uchar>(new_value));
         }

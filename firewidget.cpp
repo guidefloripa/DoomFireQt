@@ -105,13 +105,13 @@ QString FireWidget::updateInterval()
 
 void FireWidget::paintEvent(QPaintEvent *event)
 {
+    QWidget::paintEvent(event);
+
     QImage img(d->df->getAlignedFireVector(), d->df->witdh(), d->df->height(), QImage::Format_Indexed8);
     img.setColorTable(d->colorTable);
 
     QPainter p(this);
     p.drawImage(QPoint(0, 0), img);
-
-    //qDebug() << "paint" << d->df->witdh() << d->df->height();
 }
 
 void FireWidget::onTimerUpdate()
@@ -170,7 +170,7 @@ void FireWidget::onIncreaseIntervalPressed()
 
 void FireWidget::onDecreaseIntervalPressed()
 {
-    if (d->updateInterval > 10) {
+    if (d->updateInterval > 5) {
         d->updateInterval -= 5;
         timer->setInterval(d->updateInterval);
     }

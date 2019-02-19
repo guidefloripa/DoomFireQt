@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("Doom Fire Qt - Guilherme Steinmann");
+    setWindowTitle("Doom Fire Qt");
 
     playPauseButton = new QPushButton(this);
     createDestroyButton = new QPushButton(this);
@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
     IncreaseInvervalButton->setText("+");
 
     WindSpeedLabel = new QLabel(this);
-    WindSpeedLabel->setStyleSheet("QLabel { color : white; }");
+    //WindSpeedLabel->setStyleSheet("QLabel { color : white; }");
 
     updateIntervalLabel = new QLabel(this);
-    updateIntervalLabel->setStyleSheet("QLabel { color : white; }");
+    //updateIntervalLabel->setStyleSheet("QLabel { color : white; }");
 
     ui->mainToolBar->addWidget(playPauseButton);
     ui->mainToolBar->addWidget(createDestroyButton);
