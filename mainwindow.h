@@ -32,8 +32,10 @@ private:
     QPushButton* DecreaseInvervalButton;
     QPushButton* IncreaseInvervalButton;
 
+    QLabel *WindLabel;
     QLabel *WindSpeedLabel;
-    QLabel *updateIntervalLabel;
+    QLabel *updateLabel;
+    QLabel *UpdateIntervalLabel;
 
 public slots:
     void onStatusUpdated();

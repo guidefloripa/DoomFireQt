@@ -30,23 +30,37 @@ MainWindow::MainWindow(QWidget *parent) :
     IncreaseInvervalButton->setText("+");
     IncreaseInvervalButton->setMaximumWidth(35);
 
-    WindSpeedLabel = new QLabel(this);
-    //WindSpeedLabel->setStyleSheet("QLabel { color : white; }");
+    WindLabel = new QLabel(this);
+    WindLabel->setText("Wind:");
 
-    updateIntervalLabel = new QLabel(this);
-    //updateIntervalLabel->setStyleSheet("QLabel { color : white; }");
+    WindSpeedLabel = new QLabel(this);
+    //WindSpeedLabel->setStyleSheet("QLabel{color: white;}");
+    WindSpeedLabel->setMinimumWidth(14);
+    WindSpeedLabel->setAlignment(Qt::AlignCenter);
+
+    updateLabel = new QLabel(this);
+    updateLabel->setText("Refresh:");
+
+    UpdateIntervalLabel = new QLabel(this);
+    //UpdateIntervalLabel->setStyleSheet("QLabel{color: white;}");
+    UpdateIntervalLabel->setMinimumWidth(20);
+    UpdateIntervalLabel->setAlignment(Qt::AlignCenter);
+
+    ui->mainToolBar->setStyleSheet("QToolBar{spacing: 2px;}");
 
     ui->mainToolBar->addWidget(playPauseButton);
     ui->mainToolBar->addWidget(createDestroyButton);
 
     ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addWidget(WindLabel);
     ui->mainToolBar->addWidget(DecreaseWindButton);
     ui->mainToolBar->addWidget(WindSpeedLabel);
     ui->mainToolBar->addWidget(IncreaseWindButton);
 
     ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addWidget(updateLabel);
     ui->mainToolBar->addWidget(DecreaseInvervalButton);
-    ui->mainToolBar->addWidget(updateIntervalLabel);
+    ui->mainToolBar->addWidget(UpdateIntervalLabel);
     ui->mainToolBar->addWidget(IncreaseInvervalButton);
 
     fireWidget = new FireWidget(centralWidget()->width(), centralWidget()->height());
@@ -76,5 +90,5 @@ void MainWindow::onStatusUpdated()
     createDestroyButton->setText(fireWidget->CreateDestroyString());
 
     WindSpeedLabel->setText(fireWidget->windSpeed());
-    updateIntervalLabel->setText(fireWidget->updateInterval());
+    UpdateIntervalLabel->setText(fireWidget->updateInterval());
 }
